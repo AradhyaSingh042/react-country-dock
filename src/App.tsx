@@ -1,10 +1,15 @@
-import { Button } from "@/components/ui/button";
+import { Route, Routes } from "react-router";
+import Home from "./components/pages/home";
+import Country from "./components/pages/country";
 
 const App = () => {
   return (
-    <div className="wrapper w-full p-4 min-h-screen bg-slate-200 overflow-x-hidden">
-      <Button>App</Button>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/:countryName" element={<Country />} />
+      </Routes>
+    </>
   );
 };
 
