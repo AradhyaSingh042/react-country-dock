@@ -1,9 +1,9 @@
-import React from "react";
+import Header from "../client/header";
 
 const Country = () => {
   return (
-    <div className="wrapper w-full p-4 min-h-screen bg-slate-200 overflow-x-hidden">
-      Country Page
+    <div className="wrapper w-full min-h-screen bg-very-light-gray overflow-x-hidden">
+  
     </div>
   );
 };
