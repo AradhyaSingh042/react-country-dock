@@ -89,3 +89,8 @@ export interface CountryCardProps {
   key: number;
   countryInfo: CountryData;
 }
+
+export interface CountryInfoItemProps {
+  label: string;
+  value: string | number;
+}

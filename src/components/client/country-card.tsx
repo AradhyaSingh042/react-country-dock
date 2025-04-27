@@ -1,36 +1,41 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CountryCardProps } from "@/types/interface";
+import { CountryCardProps, CountryInfoItemProps } from "@/types/interface";
 import { useNavigate } from "react-router";
+import CountryInfoItem from "./country-info-item";
 
 const CountryCard: React.FC<CountryCardProps> = ({ countryInfo }) => {
   const { name, capital, population, region, flags } = countryInfo;
   const navigate = useNavigate();
 
+  const countryInfoItems:CountryInfoItemProps[] = [
+    {
+      label: "Population",
+      value: population
+    },
+    {
+      label: "Region",
+      value: region,
+    },
+    {
+      label: "Capital",
+      value: capital ? capital[0] : "",
+    },
+  ];
+
   return (
     <>
-      <Card onClick={() => navigate(`/${name.common.toLowerCase().replaceAll(" ", "-")}`)}>
+      <Card
+        onClick={() =>
+          navigate(`/${name.common.toLowerCase().replaceAll(" ", "-")}`)
+        }
+      >
         <img src={flags.png} alt={flags.alt} className="w-full h-1/2" />
         <CardContent>
           <h4 className="text-xl font-bold tracking-wide">{name.common}</h4>
           <ul className="pt-4 flex flex-col gap-1">
-            <li className="text-zinc-500 font-medium">
-              <span className="font-semibold tracking-wide text-zinc-700">
-                Population:
-              </span>{" "}
-              {population}
-            </li>
-            <li className="text-zinc-500 font-medium">
-              <span className="font-semibold tracking-wide text-zinc-700">
-                Region:
-              </span>{" "}
-              {region}
-            </li>
-            <li className="text-zinc-500 font-medium">
-              <span className="font-semibold tracking-wide text-zinc-700">
-                Capital:
-              </span>{" "}
-              {capital && capital[0]}
-            </li>
+            {countryInfoItems.map((country, index) => {
+              return <CountryInfoItem key={index} {...country} />;
+            })}
           </ul>
         </CardContent>
       </Card>
