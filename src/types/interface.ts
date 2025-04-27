@@ -94,3 +94,7 @@ export interface CountryInfoItemProps {
   label: string;
   value: string | number;
 }
+
+export interface TopbarProps {
+  setFilteredCountries: (countries: CountryData[]) => void;
+}

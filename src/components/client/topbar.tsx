@@ -9,8 +9,27 @@ import {
 } from "@/components/ui/select";
 import { Input } from "../ui/input";
 import { SearchIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { CountryData, TopbarProps } from "@/types/interface";
+import { AxiosResponse } from "axios";
 
-const Topbar = () => {
+const Topbar: React.FC<TopbarProps> = ({ setFilteredCountries }) => {
+  const [searchInput, setSearchInput] = useState("");
+
+  const queryClient = useQueryClient();
+  const cachedData = queryClient.getQueryData<AxiosResponse<CountryData[]>>([
+    "countries",
+  ]);
+
+  const filteredData = cachedData?.data?.filter((country) =>
+    country.name.common.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+  useEffect(() => {
+    setFilteredCountries(filteredData || []);
+  }, [searchInput]);
+
   return (
     <div className="topbar-container w-full flex justify-between items-center">
       <div className="search-input-container relative w-1/4 bg-white">
@@ -19,6 +38,8 @@ const Topbar = () => {
           type="text"
           placeholder="Search for a country..."
           className="pl-10 py-5.5"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
         />
       </div>
       <Select>

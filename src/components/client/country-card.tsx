@@ -10,7 +10,7 @@ const CountryCard: React.FC<CountryCardProps> = ({ countryInfo }) => {
   const countryInfoItems:CountryInfoItemProps[] = [
     {
       label: "Population",
-      value: population
+      value: population?.toLocaleString(),
     },
     {
       label: "Region",

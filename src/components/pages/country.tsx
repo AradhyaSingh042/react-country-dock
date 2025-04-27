@@ -23,6 +23,7 @@ const Country = () => {
         responseType: "json",
       });
     },
+    staleTime: 60000,
   });
 
   const {
@@ -48,7 +49,7 @@ const Country = () => {
     },
     {
       label: "Population",
-      value: population,
+      value: population?.toLocaleString(),
     },
     {
       label: "Region",
@@ -72,17 +73,27 @@ const Country = () => {
     },
     {
       label: "Languages",
-      value: languages ? languages[Object.keys(languages)[0]] : "",
+      value: languages ? Object.values(languages).join(", ") : "",
     },
   ];
 
   const queryClient = useQueryClient();
-  const cachedData = queryClient.getQueryData<AxiosResponse<CountryData[]>>([
-    "countries",
-  ])?.data;
+  const cachedData =
+    queryClient.getQueryData<AxiosResponse<CountryData[]>>(["countries"]) ||
+    queryClient.fetchQuery({
+      queryKey: ["countries"],
+      queryFn: () => {
+        return axios({
+          method: "GET",
+          url: `https://restcountries.com/v3.1/all`,
+        });
+      },
+      staleTime: 60000,
+    });
 
-  const borderData = cachedData?.filter((country) =>
-    borders ? borders.includes(country.cioc) : false
+  // @ts-ignore
+  const borderData = cachedData?.data?.filter((country: CountryData) =>
+    borders?.includes(country.cioc)
   );
 
   return (
@@ -102,7 +113,11 @@ const Country = () => {
 
         <div className="country-container pt-10 w-full grid grid-cols-2 gap-20">
           <div className="country-image-container w-full bg-transparent">
-            <img src={flags?.png} alt={flags?.alt} className="w-full h-80 object-contain" />
+            <img
+              src={flags?.png}
+              alt={flags?.alt}
+              className="w-full h-80 object-contain"
+            />
           </div>
 
           <div className="country-info-container flex flex-col justify-between w-full py-8">
@@ -124,17 +139,25 @@ const Country = () => {
                 Border Countries:{" "}
               </span>
               <div className="flex items-center gap-2">
-                {borderData?.slice(0, 4).map((border, index) => {
-                  return (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      onClick={() => navigate(`/${border.name.common.toLowerCase().replaceAll(" ", "-")}`)}
-                    >
-                      {border.name.common}
-                    </Button>
-                  );
-                })}
+                {borderData
+                  ?.slice(0, 4)
+                  .map((border: CountryData, index: number) => {
+                    return (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        onClick={() =>
+                          navigate(
+                            `/${border.name.common
+                              .toLowerCase()
+                              .replaceAll(" ", "-")}`
+                          )
+                        }
+                      >
+                        {border.name.common}
+                      </Button>
+                    );
+                  })}
               </div>
             </div>
           </div>
