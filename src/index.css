@@ -16,6 +16,11 @@ body {
   height: 100%;
 }
 
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+} 
+
 @theme {
   --color-very-light-gray: oklch(0.985 0 0);
   --color-dark-gray: oklch(0.579 0 0);

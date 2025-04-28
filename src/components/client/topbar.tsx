@@ -16,19 +16,28 @@ import { AxiosResponse } from "axios";
 
 const Topbar: React.FC<TopbarProps> = ({ setFilteredCountries }) => {
   const [searchInput, setSearchInput] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("");
 
   const queryClient = useQueryClient();
   const cachedData = queryClient.getQueryData<AxiosResponse<CountryData[]>>([
     "countries",
   ]);
 
-  const filteredData = cachedData?.data?.filter((country) =>
-    country.name.common.toLowerCase().includes(searchInput.toLowerCase())
-  );
-
   useEffect(() => {
+    const filteredData = cachedData?.data?.filter((country) =>
+      country.name.common.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  
     setFilteredCountries(filteredData || []);
   }, [searchInput]);
+
+  useEffect(()=>{
+     const filteredData = cachedData?.data?.filter((country) => {
+      if(country.region.toLowerCase() === selectedRegion) return true;
+      if (selectedRegion === "all") return true;
+     })
+     setFilteredCountries(filteredData || [])
+  }, [selectedRegion]);
 
   return (
     <div className="topbar-container w-full flex justify-between items-center">
@@ -42,18 +51,23 @@ const Topbar: React.FC<TopbarProps> = ({ setFilteredCountries }) => {
           onChange={(e) => setSearchInput(e.target.value)}
         />
       </div>
-      <Select>
+      <Select
+        value={selectedRegion}
+        onValueChange={(value) => setSelectedRegion(value)}
+      >
         <SelectTrigger className="w-[150px]">
           <SelectValue placeholder="Filter by region" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Regions</SelectLabel>
-            <SelectItem value="apple">Africa</SelectItem>
-            <SelectItem value="banana">America</SelectItem>
-            <SelectItem value="blueberry">Asia</SelectItem>
-            <SelectItem value="grapes">Europe</SelectItem>
-            <SelectItem value="pineapple">Oceania</SelectItem>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="africa">Africa</SelectItem>
+            <SelectItem value="americas">Americas</SelectItem>
+            <SelectItem value="asia">Asia</SelectItem>
+            <SelectItem value="europe">Europe</SelectItem>
+            <SelectItem value="oceania">Oceania</SelectItem>
+            <SelectItem value="antarctic">Antarctic</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
