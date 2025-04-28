@@ -24,19 +24,31 @@ const Topbar: React.FC<TopbarProps> = ({ setFilteredCountries }) => {
   ]);
 
   useEffect(() => {
-    const filteredData = cachedData?.data?.filter((country) =>
-      country.name.common.toLowerCase().includes(searchInput.toLowerCase())
-    );
-  
-    setFilteredCountries(filteredData || []);
+    const filteredData = cachedData?.data?.filter((country) => {
+      if (
+        (selectedRegion === "all" || !selectedRegion) &&
+        country.name.common.toLowerCase().includes(searchInput.toLowerCase())
+      ) {
+        return true;
+      }
+
+      if (
+        country.region.toLowerCase() === selectedRegion &&
+        country.name.common.toLowerCase().includes(searchInput.toLowerCase())
+      ) {
+        return true;
+      }
+    });
+
+    setFilteredCountries(filteredData as CountryData[]);
   }, [searchInput]);
 
-  useEffect(()=>{
-     const filteredData = cachedData?.data?.filter((country) => {
-      if(country.region.toLowerCase() === selectedRegion) return true;
+  useEffect(() => {
+    const filteredData = cachedData?.data?.filter((country) => {
+      if (country.region.toLowerCase() === selectedRegion) return true;
       if (selectedRegion === "all") return true;
-     })
-     setFilteredCountries(filteredData || [])
+    });
+    setFilteredCountries(filteredData as CountryData[]);
   }, [selectedRegion]);
 
   return (
