@@ -97,16 +97,16 @@ const Country = () => {
   );
 
   return (
-    <div className="wrapper w-full min-h-screen bg-very-light-gray overflow-x-hidden">
+    <div className="wrapper w-full min-h-screen bg-very-light-gray dark:bg-[#232D37] overflow-x-hidden">
       <Header />
       <main className="max-w-11/12 w-11/12 mx-auto pt-10">
         <div className="topbar-container w-full">
           <Button
             onClick={() => navigate("/")}
             size="lg"
-            className="flex px-6 flex-row items-center gap-2 shadow-md bg-white border-gray-200 border text-zinc-800 cursor-pointer hover:bg-zinc-100"
+            className="flex px-6 flex-row items-center gap-2 shadow-md dark:shadow-lg bg-white dark:bg-[#2B3743] dark:border-none dark:text-slate-300 border-gray-200 border text-zinc-800 cursor-pointer hover:bg-zinc-100"
           >
-            <ArrowLeftIcon className="size-5" />
+            <ArrowLeftIcon className="size-5 dark:text-slate-200" />
             <span>Back</span>
           </Button>
         </div>
@@ -135,7 +135,7 @@ const Country = () => {
               </ul>
             </div>
             <div className="border-countries-container flex flex-row items-center gap-4">
-              <span className="font-semibold text-zinc-800 tracking-wide">
+              <span className="font-semibold text-zinc-800 dark:text-slate-100 tracking-wide">
                 Border Countries:{" "}
               </span>
               <div className="flex items-center gap-2">

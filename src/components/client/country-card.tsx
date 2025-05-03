@@ -28,10 +28,11 @@ const CountryCard: React.FC<CountryCardProps> = ({ countryInfo }) => {
         onClick={() =>
           navigate(`/${name.common.toLowerCase().replaceAll(" ", "-")}`)
         }
+        className="dark:bg-[#2D3743]"
       >
         <img src={flags.png} alt={flags.alt} className="w-full h-1/2" />
         <CardContent>
-          <h4 className="text-xl font-bold tracking-wide">{name.common}</h4>
+          <h4 className="text-xl dark:text-slate-100 font-bold tracking-wide">{name.common}</h4>
           <ul className="pt-4 flex flex-col gap-1">
             {countryInfoItems.map((country, index) => {
               return <CountryInfoItem key={index} {...country} />;

@@ -53,12 +53,12 @@ const Topbar: React.FC<TopbarProps> = ({ setFilteredCountries }) => {
 
   return (
     <div className="topbar-container w-full flex justify-between items-center">
-      <div className="search-input-container relative w-1/4 bg-white">
-        <SearchIcon className="size-4 absolute top-1/2 -translate-y-1/2 left-4 text-zinc-400" />
+      <div className="search-input-container relative w-1/4 bg-white dark:bg-transparent">
+        <SearchIcon className="size-4 absolute top-1/2 -translate-y-1/2 left-4 text-zinc-400 dark:text-zinc-200" />
         <Input
           type="text"
           placeholder="Search for a country..."
-          className="pl-10 py-5.5"
+          className="pl-10 py-5.5 border border-gray-200 dark:border-none rounded-md shadow-sm dark:bg-[#2D3743] dark:placeholder:text-zinc-200 dark:text-zinc-200 placeholder:tracking-wide"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
@@ -67,10 +67,10 @@ const Topbar: React.FC<TopbarProps> = ({ setFilteredCountries }) => {
         value={selectedRegion}
         onValueChange={(value) => setSelectedRegion(value)}
       >
-        <SelectTrigger className="w-[150px]">
+        <SelectTrigger className="w-[150px] dark:bg-[#2D3743] dark:text-slate-100">
           <SelectValue placeholder="Filter by region" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="dark:bg-[#2D3743] dark:text-slate-100">
           <SelectGroup>
             <SelectLabel>Regions</SelectLabel>
             <SelectItem value="all">All</SelectItem>

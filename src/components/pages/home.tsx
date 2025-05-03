@@ -26,7 +26,7 @@ const Home = () => {
   }, [data]);
 
   return (
-    <div className="wrapper w-full min-h-screen bg-very-light-gray overflow-x-hidden">
+    <div className="wrapper w-full min-h-screen bg-very-light-gray dark:bg-[#232D37] overflow-x-hidden">
       <Header />
       <main className="max-w-11/12 w-11/12 mx-auto pt-10">
         <Topbar setFilteredCountries={setFilteredCountries} />
